@@ -10,7 +10,7 @@ module Progressive::ProjectDecorator
   # Cloned from Version#estimated_average
   def estimated_average
     if @estimated_average.nil?
-      average = issues.average(:estimated_hours).to_f
+      average = issues.average(:done_ratio).to_f
       if average == 0
         average = 1
       end
@@ -31,6 +31,7 @@ module Progressive::ProjectDecorator
                                   :joins => :status,
                                   :conditions => ["#{IssueStatus.table_name}.is_closed = ?", !open]).to_f
         progress = done / (estimated_average * issues.count)
+        p
       end
       progress
     end
